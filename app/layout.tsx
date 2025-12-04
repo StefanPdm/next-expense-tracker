@@ -1,15 +1,10 @@
-import { type Metadata } from 'next';
-import {
-  ClerkProvider,
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from '@clerk/nextjs';
+import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
+import ClerkThemeProvider from '@/components/ClerkThemeProvider';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import { ThemeProvider } from '@/contexts/ThemeContext';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -22,8 +17,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Expense Tracker',
-  description: 'A simple expense tracker app built with Next.js, Clerk, and NEON database.',
+  title: 'ExpenseTracker AI - Smart Financial Management',
+  description:
+    'AI-powered expense tracking app with intelligent insights, smart categorization, and personalized financial recommendations',
 };
 
 export default function RootLayout({
@@ -32,13 +28,34 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html lang='en'>
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          <Navbar />
-          {children}
-        </body>
-      </html>
-    </ClerkProvider>
+    <html
+      lang='en'
+      suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                const theme = localStorage.getItem('theme') || 
+                  (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                if (theme === 'dark') {
+                  document.documentElement.classList.add('dark');
+                }
+              })();
+            `,
+          }}
+        />
+      </head>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300`}>
+        <ThemeProvider>
+          <ClerkThemeProvider>
+            <Navbar />
+            {children}
+            <Footer />
+          </ClerkThemeProvider>
+        </ThemeProvider>
+      </body>
+    </html>
   );
 }
