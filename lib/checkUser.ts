@@ -2,16 +2,16 @@ import { currentUser } from '@clerk/nextjs/server';
 import { db } from './db';
 
 export const checkUser = async () => {
-  const clerkUser = await currentUser();
-  if (!clerkUser) {
+  const user = await currentUser();
+  if (!user) {
     return null;
   }
 
-  // Check if in Clerk lo
+  // Check if in Clerk the
   // user exists in your NEON database
   const loggedInUser = await db.user.findUnique({
     where: {
-      clerkUserId: clerkUser.id,
+      clerkUserId: user.id,
     },
   });
 
@@ -22,10 +22,10 @@ export const checkUser = async () => {
   // If not, create a new user in your NEON database
   const newUser = await db.user.create({
     data: {
-      clerkUserId: clerkUser.id,
-      name: `${clerkUser.firstName} ${clerkUser.lastName}`,
-      imageUrl: clerkUser.imageUrl,
-      email: clerkUser.emailAddresses[0]?.emailAddress,
+      clerkUserId: user.id,
+      name: `${user.firstName} ${user.lastName}`,
+      imageUrl: user.imageUrl,
+      email: user.emailAddresses[0]?.emailAddress,
       // Add any other fields you need
     },
   });

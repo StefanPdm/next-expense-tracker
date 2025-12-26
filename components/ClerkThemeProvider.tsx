@@ -3,6 +3,7 @@
 import { ClerkProvider } from '@clerk/nextjs';
 import { dark } from '@clerk/themes';
 import { useTheme } from '@/contexts/ThemeContext';
+import { themeColors, themeBorderRadius } from '@/lib/theme-constants';
 
 interface ClerkThemeProviderProps {
   children: React.ReactNode;
@@ -10,60 +11,49 @@ interface ClerkThemeProviderProps {
 
 export default function ClerkThemeProvider({ children }: ClerkThemeProviderProps) {
   const { theme } = useTheme();
+  const colors = theme === 'dark' ? themeColors.dark : themeColors.light;
 
   return (
     <ClerkProvider
       appearance={{
         baseTheme: theme === 'dark' ? dark : undefined,
         variables: {
-          colorPrimary: theme === 'dark' ? '#10b981' : '#059669', // emerald-500/600
-          colorBackground: theme === 'dark' ? '#1f2937' : '#ffffff',
-          colorInputBackground: theme === 'dark' ? '#374151' : '#f9fafb',
-          colorInputText: theme === 'dark' ? '#f3f4f6' : '#1f2937',
-          borderRadius: '0.75rem',
+          colorPrimary: colors.primary,
+          colorBackground: colors.background,
+          colorInputBackground: colors.inputBackground,
+          colorInputText: colors.inputText,
+          borderRadius: themeBorderRadius,
         },
         elements: {
           formButtonPrimary: {
-            backgroundColor: theme === 'dark' ? '#10b981' : '#059669',
+            backgroundColor: colors.primary,
             '&:hover': {
-              backgroundColor: theme === 'dark' ? '#059669' : '#047857',
+              backgroundColor: colors.primaryHover,
             },
           },
           card: {
             boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
             backdropFilter: 'blur(16px)',
-            border:
-              theme === 'dark'
-                ? '1px solid rgba(75, 85, 99, 0.3)'
-                : '1px solid rgba(229, 231, 235, 0.3)',
+            border: `1px solid ${colors.border}`,
           },
           headerTitle: {
-            color: theme === 'dark' ? '#f3f4f6' : '#1f2937',
+            color: colors.text,
           },
           headerSubtitle: {
-            color: theme === 'dark' ? '#9ca3af' : '#6b7280',
+            color: colors.textSecondary,
           },
           socialButtonsBlockButton: {
-            border:
-              theme === 'dark'
-                ? '1px solid rgba(75, 85, 99, 0.3)'
-                : '1px solid rgba(229, 231, 235, 0.3)',
-            backgroundColor:
-              theme === 'dark' ? 'rgba(55, 65, 81, 0.5)' : 'rgba(255, 255, 255, 0.5)',
+            border: `1px solid ${colors.border}`,
+            backgroundColor: colors.cardBackground,
             backdropFilter: 'blur(8px)',
           },
           dividerLine: {
-            backgroundColor:
-              theme === 'dark' ? 'rgba(75, 85, 99, 0.3)' : 'rgba(229, 231, 235, 0.3)',
+            backgroundColor: colors.border,
           },
           formFieldInput: {
-            backgroundColor:
-              theme === 'dark' ? 'rgba(55, 65, 81, 0.5)' : 'rgba(249, 250, 251, 0.8)',
+            backgroundColor: colors.cardBackground,
             backdropFilter: 'blur(8px)',
-            border:
-              theme === 'dark'
-                ? '1px solid rgba(75, 85, 99, 0.3)'
-                : '1px solid rgba(229, 231, 235, 0.3)',
+            border: `1px solid ${colors.border}`,
           },
         },
       }}>

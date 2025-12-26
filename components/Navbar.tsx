@@ -4,9 +4,13 @@ import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 import Link from 'next/link';
 import ThemeToggle from '@/components/ThemeToggle';
 import { useState } from 'react';
+import { useTheme } from '@/contexts/ThemeContext';
+import { themeColors } from '@/lib/theme-constants';
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { theme } = useTheme();
+  const colors = theme === 'dark' ? themeColors.dark : themeColors.light;
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -17,7 +21,15 @@ export default function Navbar() {
   };
 
   return (
-    <nav className='sticky top-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-600/50 shadow-lg shadow-gray-900/5 dark:shadow-black/30'>
+    <nav
+      className='sticky top-0 z-50 backdrop-blur-xl border-b shadow-lg'
+      style={{
+        backgroundColor: theme === 'dark' ? 'rgba(31, 41, 55, 0.95)' : 'rgba(255, 255, 255, 0.95)',
+        borderColor: colors.border,
+        boxShadow: theme === 'dark' 
+          ? '0 10px 15px -3px rgba(0, 0, 0, 0.3)' 
+          : '0 10px 15px -3px rgba(0, 0, 0, 0.05)',
+      }}>
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
         <div className='flex items-center justify-between h-14 sm:h-16'>
           {/* Logo Section */}
@@ -40,23 +52,44 @@ export default function Navbar() {
           <div className='hidden md:flex items-center space-x-1'>
             <Link
               href='/'
-              className='relative text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 px-3 lg:px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 hover:bg-emerald-50/50 dark:hover:bg-emerald-900/20 group'>
+              className='relative px-3 lg:px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 group hover:bg-emerald-50/50'
+              style={{ color: colors.text }}>
               <span className='relative z-10'>Home</span>
-              <div className='absolute inset-0 bg-linear-to-r from-emerald-500/10 to-green-500/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-200'></div>
+              <div 
+                className='absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-200'
+                style={{ 
+                  background: theme === 'dark' 
+                    ? 'rgba(16, 185, 129, 0.2)' 
+                    : 'rgba(16, 185, 129, 0.1)' 
+                }}></div>
             </Link>
 
             <Link
               href='/about'
-              className='relative text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 px-3 lg:px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 hover:bg-emerald-50/50 dark:hover:bg-emerald-900/20 group'>
+              className='relative px-3 lg:px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 group hover:bg-emerald-50/50'
+              style={{ color: colors.text }}>
               <span className='relative z-10'>About</span>
-              <div className='absolute inset-0 bg-linear-to-r from-emerald-500/10 to-green-500/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-200'></div>
+              <div 
+                className='absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-200'
+                style={{ 
+                  background: theme === 'dark' 
+                    ? 'rgba(16, 185, 129, 0.2)' 
+                    : 'rgba(16, 185, 129, 0.1)' 
+                }}></div>
             </Link>
 
             <Link
               href='/contact'
-              className='relative text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 px-3 lg:px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 hover:bg-emerald-50/50 dark:hover:bg-emerald-900/20 group'>
+              className='relative px-3 lg:px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 group hover:bg-emerald-50/50'
+              style={{ color: colors.text }}>
               <span className='relative z-10'>Contact</span>
-              <div className='absolute inset-0 bg-linear-to-r from-emerald-500/10 to-green-500/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-200'></div>
+              <div 
+                className='absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-200'
+                style={{ 
+                  background: theme === 'dark' 
+                    ? 'rgba(16, 185, 129, 0.2)' 
+                    : 'rgba(16, 185, 129, 0.1)' 
+                }}></div>
             </Link>
           </div>
 
@@ -71,7 +104,11 @@ export default function Navbar() {
             <div className='hidden sm:block'>
               <SignedOut>
                 <SignInButton>
-                  <button className='relative overflow-hidden bg-linear-to-r from-emerald-500 via-green-500 to-teal-500 hover:from-emerald-600 hover:via-green-600 hover:to-teal-600 text-white px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 active:scale-95'>
+                  <button 
+                    className='relative overflow-hidden text-white px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 active:scale-95'
+                    style={{
+                      background: 'linear-gradient(to right, #10b981, #14b8a6)',
+                    }}>
                     <div className='relative z-10 flex items-center gap-1 sm:gap-2'>
                       <span>Sign In</span>
                       <svg
@@ -93,7 +130,14 @@ export default function Navbar() {
               </SignedOut>
 
               <SignedIn>
-                <div className='flex p-0.5 sm:p-1 rounded-lg sm:rounded-xl bg-linear-to-r from-emerald-100/50 to-green-100/50 dark:from-emerald-900/20 dark:to-green-900/20 backdrop-blur-sm border border-emerald-200/30 dark:border-emerald-700/30'>
+                <div
+                  className='flex p-0.5 sm:p-1 rounded-lg sm:rounded-xl backdrop-blur-sm'
+                  style={{
+                    background: theme === 'dark' 
+                      ? 'linear-gradient(to right, rgba(16, 185, 129, 0.2), rgba(20, 184, 166, 0.2))' 
+                      : 'linear-gradient(to right, rgba(16, 185, 129, 0.1), rgba(20, 184, 166, 0.1))',
+                    border: `1px solid ${colors.border}`,
+                  }}>
                   <UserButton
                     appearance={{
                       elements: {
@@ -110,7 +154,8 @@ export default function Navbar() {
             {/* Mobile Menu Button */}
             <button
               onClick={toggleMobileMenu}
-              className='md:hidden p-1.5 sm:p-2 rounded-lg sm:rounded-xl text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50/50 dark:hover:bg-emerald-900/20 transition-all duration-200 active:scale-95'
+              className='md:hidden p-1.5 sm:p-2 rounded-lg sm:rounded-xl transition-all duration-200 active:scale-95'
+              style={{ color: colors.text }}
               aria-label='Toggle mobile menu'>
               <svg
                 className={`w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-200 ${
@@ -146,32 +191,43 @@ export default function Navbar() {
               ? 'max-h-96 opacity-100 pb-3 sm:pb-4'
               : 'max-h-0 opacity-0 overflow-hidden'
           }`}>
-          <div className='px-2 pt-2 pb-3 space-y-1 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-600/50 mt-2 shadow-lg'>
+          <div
+            className='px-2 pt-2 pb-3 space-y-1 backdrop-blur-sm rounded-xl mt-2 shadow-lg'
+            style={{
+              backgroundColor: colors.cardBackground,
+              border: `1px solid ${colors.border}`,
+            }}>
             {/* Mobile Navigation Links */}
             <Link
               href='/'
-              className='flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50/50 dark:hover:bg-emerald-900/20 text-sm font-medium transition-all duration-200 active:scale-95'
+              className='flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 active:scale-95'
+              style={{ color: colors.text }}
               onClick={closeMobileMenu}>
               <span className='text-base'>🏠</span>
               <span>Home</span>
             </Link>
             <Link
               href='/about'
-              className='flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50/50 dark:hover:bg-emerald-900/20 text-sm font-medium transition-all duration-200 active:scale-95'
+              className='flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 active:scale-95'
+              style={{ color: colors.text }}
               onClick={closeMobileMenu}>
               <span className='text-base'>ℹ️</span>
               <span>About</span>
             </Link>
             <Link
               href='/contact'
-              className='flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50/50 dark:hover:bg-emerald-900/20 text-sm font-medium transition-all duration-200 active:scale-95'
+              className='flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 active:scale-95'
+              style={{ color: colors.text }}
               onClick={closeMobileMenu}>
               <span className='text-base'>📞</span>
               <span>Contact</span>
             </Link>
 
             {/* Mobile Authentication */}
-            <div className='pt-3 border-t border-gray-200/50 dark:border-gray-600/50'>
+            <div
+              className={`pt-3 border-t ${
+                theme === 'dark' ? 'border-gray-600/50' : 'border-gray-200/50'
+              }`}>
               <SignedOut>
                 <SignInButton>
                   <button
@@ -195,7 +251,12 @@ export default function Navbar() {
               </SignedOut>
 
               <SignedIn>
-                <div className='flex items-center justify-center p-3 rounded-xl bg-linear-to-r from-emerald-100/50 to-green-100/50 dark:from-emerald-900/20 dark:to-green-900/20 backdrop-blur-sm border border-emerald-200/30 dark:border-emerald-700/30'>
+                <div
+                  className={`flex items-center justify-center p-3 rounded-xl backdrop-blur-sm border ${
+                    theme === 'dark'
+                      ? 'bg-linear-to-r from-emerald-900/20 to-green-900/20 border-emerald-700/30'
+                      : 'bg-linear-to-r from-emerald-100/50 to-green-100/50 border-emerald-200/30'
+                  }`}>
                   <UserButton
                     appearance={{
                       elements: {
