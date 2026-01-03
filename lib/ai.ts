@@ -29,7 +29,8 @@ const openai = new OpenAI({
 });
 
 // Use appropriate model based on API
-const MODEL = useOpenRouter ? 'deepseek/deepseek-chat-v3-0324:free' : 'gpt-3.5-turbo';
+// const MODEL = useOpenRouter ? 'deepseek/deepseek-chat-v3-0324:free' : 'gpt-3.5-turbo';
+const MODEL = useOpenRouter ? 'gpt-4.1' : 'gpt-3.5-turbo';
 
 export interface ExpenseRecord {
   id: string;
@@ -179,10 +180,6 @@ function getFallbackInsights(expenses: ExpenseRecord[]): AIInsight[] {
 }
 
 export async function categorizeExpense(description: string): Promise<string> {
-  console.log('🔍 Categorizing expense:', description);
-  console.log('📡 Using API:', useOpenRouter ? 'OpenRouter' : 'OpenAI');
-  console.log('🔑 API Key configured:', !!apiKey);
-
   if (!apiKey) {
     console.warn('⚠️ No API key configured, returning default category');
     return 'Other';
@@ -195,7 +192,7 @@ export async function categorizeExpense(description: string): Promise<string> {
         {
           role: 'system',
           content:
-            'You are an expense categorization AI. Categorize expenses into one of these categories: Food, Transportation, Entertainment, Shopping, Bills, Healthcare, Other. Respond with only the category name.',
+            'You are an expense categorization AI. Categorize expenses into one of these categories: Food, Transportation, Entertainment, Shopping, Bills, Healthcare, Dog, Other. Respond with only the category name.',
         },
         {
           role: 'user',
@@ -215,6 +212,7 @@ export async function categorizeExpense(description: string): Promise<string> {
       'Shopping',
       'Bills',
       'Healthcare',
+      'Dog',
       'Other',
     ];
 
