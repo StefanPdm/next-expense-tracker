@@ -10,13 +10,9 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  // 👇 Added these sections to skip heavy checks during build
   typescript: {
+    // Keep this to avoid TypeScript blocking the build
     ignoreBuildErrors: true,
-  },
-  // @ts-expect-error - The eslint type is missing in Next.js 16 types but valid at runtime
-  eslint: {
-    ignoreDuringBuilds: true,
   },
 };
 
