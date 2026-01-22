@@ -4,13 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev --port 4000",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
-    "@clerk/nextjs": "^6.35.5",
-    "@clerk/themes": "^2.4.41",
+    "@clerk/nextjs": "^6.36.9",
+    "@clerk/themes": "^2.4.49",
     "@prisma/client": "^6.19.0",
     "chart.js": "^4.5.1",
     "dotenv": "^17.2.3",
