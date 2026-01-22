@@ -184,10 +184,10 @@ const AIInsights = () => {
         </div>
 
         <div className='space-y-3 sm:space-y-4'>
-          {[1, 2, 3].map((i) => (
+          {[1, 2, 3, 4].map((i) => (
             <div
               key={i}
-              className='animate-pulse bg-gradient-to-r from-gray-100 to-gray-50 dark:from-gray-700 dark:to-gray-800 p-3 sm:p-4 rounded-xl border border-gray-100 dark:border-gray-600'>
+              className='animate-pulse bg-linear-to-r from-gray-100 to-gray-50 dark:from-gray-700 dark:to-gray-800 p-3 sm:p-4 rounded-xl border border-gray-100 dark:border-gray-600'>
               <div className='flex items-start gap-3 sm:gap-4'>
                 <div className='w-6 h-6 sm:w-8 sm:h-8 bg-gray-200 dark:bg-gray-600 rounded-lg'></div>
                 <div className='flex-1 space-y-2'>
